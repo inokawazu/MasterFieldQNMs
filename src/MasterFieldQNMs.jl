@@ -43,7 +43,7 @@ function horexp(
   ) where T <: Number
   horloc = horizonlocation(mfe)
   α = indicialexponent(mfe)(w, q) # ingoing boundary condition at t  he horizon
-  t = Taylor1(T, hororder)
+  t = Taylor1(Complex{T}, hororder)
   a = acoef(mfe)
   b = bcoef(mfe)
 
@@ -58,7 +58,7 @@ function horexp(
 
   rhs = Complex{T}[-bhor.coeffs[n+1] for n in 1:hororder]
 
-  return Taylor1(T[1; lhs\rhs])
+  return Taylor1(Complex{T}[1; lhs\rhs])
 end
 
 function hubeny_horowitz_criticalpoint(
