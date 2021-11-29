@@ -21,7 +21,7 @@ end
 acoef(_::Shear) = shear_a
 bcoef(_::Shear) = shear_b
 
-indexp(_::Shear) = indexp
+indicialexponent(_::Shear) = indexp
 
 struct Sound <: MasterFieldEquation 
 end
@@ -41,6 +41,6 @@ end
 acoef(_::Sound) = shear_a
 bcoef(_::Sound) = shear_b
 
-indexp(_::Sound) = indexp
+indicialexponent(_::Sound) = indexp
 
 end # module
