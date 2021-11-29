@@ -4,13 +4,13 @@ module MasterFieldEquations # Begin MasterFieldEquation
 
 export MasterFieldEquation, acoef, bcoef, indicialexponent, horizonlocation
 
-abstract type MasterFieldEquation{ T } end
+abstract type MasterFieldEquation end
 
 acoef(mfe::MasterFieldEquation) = error("$(mfe) must have an 'a(u,w,q)' coefficent.")
 bcoef(mfe::MasterFieldEquation) = error("$(mfe) must have an 'b(u,w,q)' coefficent.")
 indicialexponent(mfe::MasterFieldEquation) = error("$(mfe) must have an indicial exponent, α(w,q)")
 
-horizonlocation(_::MasterFieldEquation{T}) where T = one(T)
+horizonlocation(_::MasterFieldEquation) = 1
 
 end # End MasterFieldEquation
 using .MasterFieldEquations
@@ -38,7 +38,9 @@ using ..MasterFieldEquations, ..Transformations
 using TaylorSeries: Taylor1
 using NLsolve
 
-function horexp(mfe::MasterFieldEquation{T}, w::Complex{T}, q::Complex{T}; hororder = 20) where T
+function horexp(
+    mfe::MasterFieldEquation, w::Complex{T}, q::Complex{T}; hororder = 20
+  ) where T <: Number
   horloc = horizonlocation(mfe)
   α = indicialexponent(mfe)(w, q) # ingoing boundary condition at t  he horizon
   t = Taylor1(T, hororder)
@@ -60,8 +62,8 @@ function horexp(mfe::MasterFieldEquation{T}, w::Complex{T}, q::Complex{T}; horor
 end
 
 function hubeny_horowitz_criticalpoint(
-    mfe::MasterFieldEquation{T}, w0::Complex{T}, q0::Complex{T}; hororder = 20
-  ) where T
+    mfe::MasterFieldEquation, w0::Complex{T}, q0::Complex{T}; hororder = 20
+  ) where T <: Number
 
   deriv_diff(f, h=sqrt(4*eps(T))) = x -> sum(
                                              co*f(x + h*(n-1)) 
