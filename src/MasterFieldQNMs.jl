@@ -1,6 +1,5 @@
 module MasterFieldQNMs
 
-
 # Begin MasterFieldEquation
 abstract type MasterFieldEquation{ T } end
 
@@ -71,7 +70,6 @@ function hubeny_horowitz_criticalpoint(
 
     nlsolve(g!, [w0, q0])
 end
-
 # End horizon expansion
 
 end # module
