@@ -6,6 +6,8 @@ abstract type MasterFieldEquation{ T } end
 
 acoef(mfe::MasterFieldEquation) = error("$(mfe) must have an 'a(u,w,q)' coefficent.")
 bcoef(mfe::MasterFieldEquation) = error("$(mfe) must have an 'b(u,w,q)' coefficent.")
+
+horizonlocation(_::MasterFieldEquation{T}) where T = one(T)
 # End MasterFieldEquation
 
 function atrans(a::Function, α::Number)
