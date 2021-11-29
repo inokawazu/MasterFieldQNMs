@@ -43,7 +43,7 @@ function horexp(mfe::MasterFieldEquation{T}, w::T, q::T; hororder = 20) where T
   rhs = T[-bhor.coeffs[n+1] for n in 1:hororder]
 
   return Taylor1(T[1; lhs\rhs])
-        end
+end
 # End horizon expansion
 
 end # module
