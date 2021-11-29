@@ -8,4 +8,12 @@ acoef(mfe::MasterFieldEquation) = error("$(mfe) must have an 'a(u,w,q)' coeffice
 bcoef(mfe::MasterFieldEquation) = error("$(mfe) must have an 'b(u,w,q)' coefficent.")
 # End MasterFieldEquation
 
+function atrans(a::Function, α::Number)
+    return (x...,) -> a(x...) + 2*α
+end 
+
+function btrans(b::Function, a::Function, α::Number)
+    return (x...,) -> b(x...) + a(x...)*α + α*(α-1)
+end 
+
 end # module
