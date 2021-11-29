@@ -2,3 +2,6 @@ name = "MasterFieldQNMs"
 uuid = "0634dc61-7f07-4706-af49-6e275fdc9b61"
 authors = ["Markus-Amano <markus.a.amano@gmail.com>"]
 version = "0.1.0"
+
+[deps]
+TaylorSeries = "6aa5eb33-94cf-58f4-a9d0-e4b2c4fc25ea"
