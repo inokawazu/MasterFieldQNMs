@@ -21,30 +21,29 @@ function btrans(b::Function, a::Function, α::Number)
 end 
 # End Transformation functions
 
+# Begin horizon expansion
+using TaylorSeries: Taylor1
 
-function horexp(mfe::MasterFieldEquation; hororder = 20)::Function
-            # p; hororder = 20, horloc = 1, transfuncs=[atrans, btrans], ab = [a,b]
-            # T = eltype(p)
-            # w, q = p
-            # α = -im*w/2 # ingoing boundary condition at t  he horizon
+function horexp(mfe::MasterFieldEquation{T}, w::T, q::T; hororder = 20) where T
+  horloc = horizonlocation(mfe)
+  α = indicialexponent(mfe) # -im*w/2  ingoing boundary condition at t  he horizon
+  t = Taylor1(T, hororder)
+  a = acoef(mfe)
+  b = bcoef(mfe)
 
-            # atrans, btrans = transfuncs
-            # a,b = ab
-            # t = Taylor1(T, horo rder)
-            # ahor = atrans(a, α, t+horloc)(t+horloc, w, q)
-            # bhor = btrans(b,     a, α, t+horloc)(t+horloc, w, q)
+  ahor = atrans(a,α)(t+horloc, w, q)
+  bhor = btrans(b, a, α)(t+horloc, w, q)
 
-            # lhs = 
-            # T[
-            #   (m == n  ? (n-1)*n#=  aₙ=# : 0.0) +
-            #   ((n+1) > m  ? ahor.coeffs[(n+1)-m]*m + bhor.coeffs[(  n+1)-m] #=aₘ=# : 0.0)
-            #   for n in 1:hororder, m in 1:hororder
-            #  ]
+  lhs = T[
+    ( m == n    ? (n-1)*n                                         : 0.0) +
+    ((n+1) > m  ? ahor.coeffs[(n+1)-m]*m + bhor.coeffs[(n+1)-m]   : 0.0)
+    for n in 1:hororder, m in 1:hororder
+   ]
 
-            # rh  s = 
-            # T[-bhor.coeffs[n+1] for n in 1:hororder]
+  rhs = T[-bhor.coeffs[n+1] for n in 1:hororder]
 
-            # return Taylor1(T[1;     lhs\rhs])
+  return Taylor1(T[1; lhs\rhs])
         end
+# End horizon expansion
 
 end # module
