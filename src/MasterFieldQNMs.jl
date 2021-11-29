@@ -23,8 +23,9 @@ end
 
 # Begin horizon expansion
 using TaylorSeries: Taylor1
+using NLsolve
 
-function horexp(mfe::MasterFieldEquation{T}, w::T, q::T; hororder = 20) where T
+function horexp(mfe::MasterFieldEquation{T}, w::Complex{T}, q::Complex{T}; hororder = 20) where T
   horloc = horizonlocation(mfe)
   α = indicialexponent(mfe) # -im*w/2  ingoing boundary condition at t  he horizon
   t = Taylor1(T, hororder)
@@ -44,6 +45,33 @@ function horexp(mfe::MasterFieldEquation{T}, w::T, q::T; hororder = 20) where T
 
   return Taylor1(T[1; lhs\rhs])
 end
+
+function hubeny_horowitz_criticalpoint(
+    mfe::MasterFieldEquation{T}, w0::Complex{T}, q0::Complex{T}; hororder = 20
+  ) where T
+
+  deriv_diff(f, h=sqrt(4*eps(T))) = x -> sum(
+                                             co*f(x + h*(n-1)) 
+                                             for (n, co) 
+                                             in enumerate([-137/60, 5, -5, 10/3, -5/4, 1/5])
+                                            ) / h
+
+    function g!(F, x)
+      w′,q′ = x
+
+      function f(w) 
+        he = horexp(mfe, w, q′; hororder=hororder)
+        return Taylor1(he)(-1)  
+      end
+
+      F[1] = f(w′)
+      F[2] = deriv_diff(f)(w′)
+      return F
+    end
+
+    nlsolve(g!, [w0, q0])
+end
+
 # End horizon expansion
 
 end # module
