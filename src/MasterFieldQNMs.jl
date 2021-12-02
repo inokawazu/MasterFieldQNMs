@@ -93,5 +93,6 @@ using .HorizonExpansion
 export horexp, hubeny_horowitz_criticalpoint
 
 include("adsblackbrane5d.jl")
+include("boostedeoms.jl")
 
 end # module
