@@ -38,8 +38,8 @@ function sound_b(u, w, q)
     return nu/de
 end
 
-acoef(_::Sound) = shear_a
-bcoef(_::Sound) = shear_b
+acoef(_::Sound) = sound_a
+bcoef(_::Sound) = sound_b
 
 indicialexponent(_::Sound) = indexp
 
