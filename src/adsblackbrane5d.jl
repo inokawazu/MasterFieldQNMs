@@ -4,8 +4,7 @@ import ..MasterFieldEquations: MasterFieldEquation, acoef, bcoef, indicialexpone
 
 indexp(w, _) = -im*w/2  
 
-struct Shear <: MasterFieldEquation 
-end
+struct Shear <: MasterFieldEquation end
 
 function shear_a(u, w, q) 
     f = 1-u^2
@@ -23,8 +22,7 @@ bcoef(_::Shear) = shear_b
 
 indicialexponent(_::Shear) = indexp
 
-struct Sound <: MasterFieldEquation 
-end
+struct Sound <: MasterFieldEquation end
 
 function sound_a(u, w, q) 
     nu = -(3*w^2*(1+u^2) + q^2*(2*u^2-3*u^4-3))
