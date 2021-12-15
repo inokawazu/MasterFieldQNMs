@@ -65,10 +65,10 @@ function hubeny_horowitz_criticalpoint(
     mfe::MasterFieldEquation, w0::Complex{T}, q0::Complex{T}; hororder = 20
   ) where T <: Number
 
-  deriv_diff(f, h=sqrt(4*eps(T))) = x -> sum(
+  deriv_diff(f, h=sqrt(eps(T))) = x -> sum(
                                              co*f(x + h*(n-1)) 
                                              for (n, co) 
-                                             in enumerate([-137/60, 5, -5, 10/3, -5/4, 1/5])
+                                             in enumerate(T[-137/60, 5, -5, 10/3, -5/4, 1/5])
                                             ) / h
 
     function g!(F, x)
