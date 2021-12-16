@@ -51,10 +51,10 @@ function horexp(
   bhor = btrans(b,a,α)(t+horloc, w, q)
 
   lhs = Complex{T}[
-    ( m == n    ? (n-1)*n                                         : 0.0) +
-    ((n+1) > m  ? ahor.coeffs[(n+1)-m]*m + bhor.coeffs[(n+1)-m]   : 0.0)
-    for n in 1:hororder, m in 1:hororder
-   ]
+                   ( m == n    ? (n-1)*n                                         : T(0.0)) +
+                   ((n+1) > m  ? ahor.coeffs[(n+1)-m]*m + bhor.coeffs[(n+1)-m]   : T(0.0))
+                   for n in 1:hororder, m in 1:hororder
+                  ]
 
   rhs = Complex{T}[-bhor.coeffs[n+1] for n in 1:hororder]
 
