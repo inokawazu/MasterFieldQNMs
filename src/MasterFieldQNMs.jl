@@ -47,8 +47,8 @@ function horexp(
   a = acoef(mfe)
   b = bcoef(mfe)
 
-  ahor = atrans(a,α)(t+horloc, w, q) |> T
-  bhor = btrans(b,a,α)(t+horloc, w, q) |> T
+  ahor = atrans(a,α)(t+horloc, w, q)
+  bhor = btrans(b,a,α)(t+horloc, w, q)
 
   lhs = Complex{T}[
                    (m == n    ? T((n-1)*n)                                      : T(0.0)) +
