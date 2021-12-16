@@ -42,7 +42,7 @@ function horexp(
     mfe::MasterFieldEquation, w::Complex{T}, q::Complex{T}; hororder = 20
   ) where T <: Number
   horloc = horizonlocation(mfe) |> T
-  α = indicialexponent(mfe)(w, q) |> T # ingoing boundary condition at t  he horizon
+  α = indicialexponent(mfe)(w, q) |> Complex{T} # ingoing boundary condition at t  he horizon
   t = Taylor1(Complex{T}, hororder)
   a = acoef(mfe)
   b = bcoef(mfe)
