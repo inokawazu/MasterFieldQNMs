@@ -41,14 +41,14 @@ using NLsolve
 function horexp(
     mfe::MasterFieldEquation, w::Complex{T}, q::Complex{T}; hororder = 20
   ) where T <: Number
-  horloc = horizonlocation(mfe)
-  α = indicialexponent(mfe)(w, q) # ingoing boundary condition at t  he horizon
+  horloc = horizonlocation(mfe) |> T
+  α = indicialexponent(mfe)(w, q) |> T # ingoing boundary condition at t  he horizon
   t = Taylor1(Complex{T}, hororder)
   a = acoef(mfe)
   b = bcoef(mfe)
 
   ahor = atrans(a,α)(t+horloc, w, q)
-  bhor = btrans(b, a, α)(t+horloc, w, q)
+  bhor = btrans(b,a,α)(t+horloc, w, q)
 
   lhs = Complex{T}[
     ( m == n    ? (n-1)*n                                         : 0.0) +
