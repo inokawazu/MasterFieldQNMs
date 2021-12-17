@@ -58,7 +58,7 @@ function horexp(
 
   rhs = Complex{T}[-bhor.coeffs[n+1] for n in 1:hororder]
 
-  return Taylor1(Complex{T}[1; lhs\rhs])
+  return Taylor1(Complex{T}[Complex{T}(1); lhs\rhs])
 end
 
 function hubeny_horowitz_criticalpoint(
