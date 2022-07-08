@@ -1,7 +1,3 @@
-export horexp, hubeny_horowitz_criticalpoint
-
-using TaylorSeries: Taylor1
-using NLsolve
 
 function horexp(
     mfe::MasterFieldEquation, w::Complex{T}, q::Complex{T}; hororder = 20

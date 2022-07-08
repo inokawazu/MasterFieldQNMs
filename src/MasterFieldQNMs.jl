@@ -1,6 +1,12 @@
 module MasterFieldQNMs
 
-export acoef, bcoef, horexp, hubeny_horowitz_criticalpoint
+export # transformations
+       acoef, bcoef, 
+       # horizon_expansion
+       horexp, hubeny_horowitz_criticalpoint
+
+using TaylorSeries: Taylor1 # horizon_expansion
+using NLsolve # horizon_expansion
 
 # main code
 include("master_field_equation.jl")
