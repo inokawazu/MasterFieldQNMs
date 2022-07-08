@@ -35,6 +35,7 @@ function hubeny_horowitz_criticalpoint(
     function g!(F, x)
       w′,q′ = x
 
+      # TODO: remove hard coded "boundary"
       function f(w) 
         he = horexp(mfe, w, q′; hororder=hororder)
         return Taylor1(he)(-1)  
@@ -46,4 +47,18 @@ function hubeny_horowitz_criticalpoint(
     end
 
     nlsolve(g!, [w0, q0])
+end
+
+function hubeny_horowitz_qnm(
+    mfe::MasterFieldEquation, w0::Complex{T}, q::Complex{T}; hororder = 20,
+    xatol=nothing, xrtol=nothing, maxevals=1000
+    ) where T <: Number
+
+    # TODO: remove hard coded "boundary"
+    function f(freq) 
+        he = horexp(mfe, freq, q; hororder=hororder)
+        return Taylor1(he)(-1)  
+    end
+
+    muller(f, w0; xatol=xatol, xrtol=xrtol, maxevals=maxevals)
 end
