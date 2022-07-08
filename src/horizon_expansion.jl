@@ -1,7 +1,4 @@
-module HorizonExpansion # Begin horizon expansion
-
 export horexp, hubeny_horowitz_criticalpoint
-using ..MasterFieldEquations, ..Transformations
 
 using TaylorSeries: Taylor1
 using NLsolve
@@ -54,5 +51,3 @@ function hubeny_horowitz_criticalpoint(
 
     nlsolve(g!, [w0, q0])
 end
-
-end # End horizon expansion

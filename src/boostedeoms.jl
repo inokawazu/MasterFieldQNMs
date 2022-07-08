@@ -1,6 +1,6 @@
 module BoostedEOMs
 
-import ..MasterFieldEquations: MasterFieldEquation, acoef, bcoef, indicialexponent
+import ..MasterFieldEquation, ..acoef, ..bcoef, ..indicialexponent
 
 mutable struct BoostedEquation{T <: Real} <: MasterFieldEquation
     a::T
@@ -30,4 +30,4 @@ function indicialexponent(be::BoostedEquation)::Function
     return boostedindicial(be)(indicialexponent(be.unboosted))
 end
 
-end # end module
+end # end BoostedEOMs

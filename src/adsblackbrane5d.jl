@@ -1,6 +1,6 @@
 module BlackBrane5D
 
-import ..MasterFieldEquations: MasterFieldEquation, acoef, bcoef, indicialexponent
+import ..MasterFieldEquation, ..acoef, ..bcoef, ..indicialexponent
 
 indexp(w, _) = -im*w/2  
 
@@ -41,4 +41,4 @@ bcoef(_::Sound) = sound_b
 
 indicialexponent(_::Sound) = indexp
 
-end # module
+end # BlackBrane5D module
