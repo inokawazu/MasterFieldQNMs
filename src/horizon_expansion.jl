@@ -1,25 +1,32 @@
 
 function horexp(
-    mfe::MasterFieldEquation, w::Complex{T}, q::Complex{T}; hororder = 20
-  ) where T <: Number
-  horloc = horizonlocation(mfe) |> T
-  α = indicialexponent(mfe)(w, q) |> Complex{T} # ingoing boundary condition at the horizon
-  t = Taylor1(Complex{T}, hororder)
-  a = acoef(mfe)
-  b = bcoef(mfe)
+    mfe::MasterFieldEquation, w::Number, q::Number; hororder = 20
+  )
+    w, q = promote(w, q)
+    T = real(eltype(w))
 
-  ahor = atrans(a,α)(t+horloc, w, q)
-  bhor = btrans(b,a,α)(t+horloc, w, q)
+    horloc::T = horizonlocation(mfe)
+    α::Complex{T}  = indicialexponent(mfe)(w, q) # ingoing boundary condition at the horizon
+    t = Taylor1(Complex{T}, hororder)
+    a = acoef(mfe)
+    b = bcoef(mfe)
 
-  lhs = Complex{T}[
-                   (m == n    ? T((n-1)*n)                                      : T(0.0)) +
-                   ((n+1) > m  ? ahor.coeffs[(n+1)-m]*m + bhor.coeffs[(n+1)-m]   : T(0.0))
-                   for n in 1:hororder, m in 1:hororder
-                  ]
+    ahor = atrans(a,α)(t+horloc, w, q)
+    bhor = btrans(b,a,α)(t+horloc, w, q)
 
-  rhs = Complex{T}[-bhor.coeffs[n+1] for n in 1:hororder]
+    out_series = Array{Complex{T}}(undef, hororder)
+    out_series[1] = one(Complex{T})
 
-  return Taylor1(Complex{T}[Complex{T}(1); lhs\rhs])
+    for ord in 2:hororder
+        m = ord - 1
+        s = sum(
+                (bhor.coeffs[ord - k] + (k-1)*ahor.coeffs[ord - k])*out_series[k] 
+                for k in 1:ord-1
+               )
+        out_series[ord] = - s/(m*(m-1) + m*ahor.coeffs[1])
+    end
+
+    return out_series
 end
 
 function hubeny_horowitz_criticalpoint(
@@ -49,10 +56,11 @@ function hubeny_horowitz_criticalpoint(
     nlsolve(g!, [w0, q0])
 end
 
+# TODO: convergence is weak.
 function hubeny_horowitz_qnm(
-    mfe::MasterFieldEquation, w0::Complex{T}, q::Complex{T}; hororder = 20,
+    mfe::MasterFieldEquation, w0::Number, q::Number; hororder = 20,
     xatol=nothing, xrtol=nothing, maxevals=1000
-    ) where T <: Number
+    ) 
 
     # TODO: remove hard coded "boundary"
     function f(freq) 
