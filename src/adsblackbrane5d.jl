@@ -9,7 +9,7 @@ struct Shear <: MasterFieldEquation end
 function shear_a(u, w, q) 
     f = 1-u^2
     f′= -2*u
-    return ((w^2-q^2*f)*f-u*w^2*f′)/(u*(-(u+1))*(q^2*f-w^2))   
+    return -((w^2-q^2*f)*f-u*w^2*f′)/(u*(u+1)*(q^2*f-w^2))   
 end
 
 function shear_b(u, w, q)
