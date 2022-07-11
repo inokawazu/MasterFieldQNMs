@@ -18,7 +18,7 @@ end
 
 function boostedindicial(be::BoostedEquation)::Function
     w = be.wtrans
-    q  = be.qtrans
+    q = be.qtrans
     a = be.a
     return fun -> ((nu, j) -> fun(w(a, nu, j), q(a, nu, j)))
 end
@@ -26,8 +26,7 @@ end
 acoef(be::BoostedEquation)::Function = boostedcoef(be)(acoef(be.unboosted))
 bcoef(be::BoostedEquation)::Function = boostedcoef(be)(bcoef(be.unboosted))
 
-function indicialexponent(be::BoostedEquation)::Function
-    return boostedindicial(be)(indicialexponent(be.unboosted))
-end
+indicialexponent(be::BoostedEquation)::Function = 
+    boostedindicial(be)(indicialexponent(be.unboosted))
 
 end # end BoostedEOMs
